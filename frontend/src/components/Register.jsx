@@ -1,20 +1,30 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
+import { Signup } from "../services/operations/authAPI";
 import './Register.css';
+import { useDispatch } from "react-redux";
 
 const Register = () => {
- const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
-    console.log("Register Data:", { username, email, password });
+    // console.log("Register Data:", { username, email, password });
 
-    // 🔐 Will connect to backend later
-    navigate("/login");
+    dispatch(
+      Signup({
+        username,
+        email,
+        password,
+        navigate
+      })
+    );
+      
   };
 
   return (

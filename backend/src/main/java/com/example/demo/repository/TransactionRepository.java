@@ -23,11 +23,12 @@ import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 @Repository
 public class TransactionRepository {
 
-    static Dotenv dotenv = Dotenv.configure().load();
+    private static final Dotenv dotenv = Dotenv.configure().load();
 
     private static final String AWS_ACCESS_KEY = dotenv.get("AWS_ACCESS_KEY");
     private static final String AWS_SECRET_KEY = dotenv.get("AWS_SECRET_KEY");
     private static final Region AWS_REGION = Region.of(dotenv.get("AWS_REGION"));
+
 
     AwsBasicCredentials awsCreds = AwsBasicCredentials.create(AWS_ACCESS_KEY, AWS_SECRET_KEY);
     DynamoDbClient ddb = DynamoDbClient.builder()

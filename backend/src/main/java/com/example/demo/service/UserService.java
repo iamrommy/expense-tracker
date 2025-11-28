@@ -21,11 +21,18 @@ public class UserService {
     // Register and persist
     public User register(String username, String passwordHash, String email) {
 
-        Optional<User> existing = userRepository.findByUsername(username);
+        boolean existing = userRepository.findByUsername(username);
 
-        if (existing.isPresent()) {
+        if (existing) {
             throw new UserAlreadyExistsException("Username already taken");
         }
+
+        Optional<User> exists = userRepository.findByEmail(email);
+        
+        if(exists.isPresent()) {
+            throw new UserAlreadyExistsException("User with email already exists");
+        }
+        
         User u = new User();
         u.setUserId(UUID.randomUUID().toString());
         u.setUsername(username);
@@ -36,8 +43,13 @@ public class UserService {
         return u;
     }
 
-    public User findByUsername(String username) {
-        Optional<User> opt = userRepository.findByUsername(username);
+    public boolean findByUsername(String username) {
+        boolean opt = userRepository.findByUsername(username);
+        return opt;
+    }
+
+    public User findByEmail(String email) {
+        Optional<User> opt = userRepository.findByEmail(email);
         return opt.orElse(null);
     }
 }

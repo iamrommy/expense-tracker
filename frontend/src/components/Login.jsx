@@ -2,18 +2,27 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
+import { useDispatch } from "react-redux";
+import { login } from "../services/operations/authAPI";
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Login Submitted", { email, password });
+    // console.log("Login Submitted", { email, password });
 
-    // 🔐 Later will replace with API call + token storage
-    navigate("/dashboard");
+    dispatch(
+      login({
+        email,
+        password,
+        navigate
+      })
+    );
+
   };
 
   return (
