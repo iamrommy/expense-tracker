@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+aws:
+  region: ap-south-1
+
+jwt:
+  secret: yk6gP79fF43Hf92kLmQZ2wXc19bC4eHs728gH3sDk6F8f9a2b5dPq3sRq1eTw9Lm
+  expirationMs: 86400000
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.example.demo: DEBUG

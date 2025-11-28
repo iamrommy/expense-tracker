@@ -1,0 +1,110 @@
+.history-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, red, #f81c53, #dc52ff);
+  
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  text-align: center;
+}
+
+/* Page Title */
+.history-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-shadow: 0px 3px 10px rgba(0,0,0,0.4);
+}
+
+/* Table Container */
+.table-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  max-width: 900px;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.35);
+}
+
+/* Table Head */
+.history-table th {
+  background: rgba(255,255,255,0.25);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 14px 12px;
+  color: #fff;
+}
+
+/* Table Cells */
+.history-table td {
+  padding: 12px 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-shadow: 0px 1px 3px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+}
+
+/* Income & Expense Colors */
+.income {
+  color: #00ff85;
+  font-weight: 700;
+}
+
+.expense {
+  color: #ffc340;;
+  font-weight: 700;
+}
+
+/* Buttons */
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  margin: 3px;
+  font-size: .85rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+/* Edit Button */
+.edit-btn {
+  background: rgba(0, 217, 255, 0.9);
+  color: #000;
+}
+
+.edit-btn:hover {
+  background: #61eaff;
+  transform: scale(1.05);
+}
+
+/* Delete Button */
+.delete-btn {
+  background:  #ffc340;;
+}
+
+.delete-btn:hover {
+  background: #ff6363;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .history-title {
+    font-size: 2rem;
+  }
+
+  .history-table th, .history-table td {
+    font-size: 0.9rem;
+    padding: 10px 6px;
+  }
+}

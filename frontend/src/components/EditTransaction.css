@@ -1,0 +1,61 @@
+.edit-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, red, #f81c53, #dc52ff);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.edit-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.edit-form {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255,255,255,0.12);
+  padding: 35px;
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.edit-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.save-btn {
+  width: 100%;
+  background: #00f7ff;
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.3);
+}
