@@ -39,6 +39,8 @@ public class UserRepository {
         item.put("username", AttributeValue.builder().s(user.getUsername()).build());
         item.put("userId", AttributeValue.builder().s(user.getUserId()).build());
         item.put("passwordHash", AttributeValue.builder().s(user.getPasswordHash()).build());
+        item.put("email", AttributeValue.builder().s(user.getEmail()).build());
+        // item.put("monthlyGoal", AttributeValue.builder().s(user.getMonthlyGoal()).build());
         PutItemRequest req = PutItemRequest.builder()
                 .tableName(tableName)
                 .item(item)
@@ -59,6 +61,8 @@ public class UserRepository {
         u.setUserId(m.getOrDefault("userId", AttributeValue.builder().s("").build()).s());
         u.setUsername(m.get("username").s());
         u.setPasswordHash(m.get("passwordHash").s());
+        u.setEmail(m.get("email").s());
+        // u.setMonthlyGoal(m.get("monthlyGoal").s());
         return Optional.of(u);
     }
 }
