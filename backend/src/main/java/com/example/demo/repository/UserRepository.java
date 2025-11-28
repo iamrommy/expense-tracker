@@ -1,30 +1,32 @@
 package com.example.demo.repository;
 
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.*;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-
-import org.springframework.stereotype.Repository;
-import com.example.demo.model.User;
-
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
+import com.example.demo.model.User;
+
+import io.github.cdimascio.dotenv.Dotenv;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
+
 @Repository
 public class UserRepository {
 
-    static Dotenv dotenv = Dotenv.configure().load();
+    private static final Dotenv dotenv = Dotenv.configure().load();
 
     private static final String AWS_ACCESS_KEY = dotenv.get("AWS_ACCESS_KEY");
     private static final String AWS_SECRET_KEY = dotenv.get("AWS_SECRET_KEY");
     private static final Region AWS_REGION = Region.of(dotenv.get("AWS_REGION"));
+
     private static final String TABLE_NAME = "Users"; // replace with your table name
     // ==============================
     AwsBasicCredentials awsCreds = AwsBasicCredentials.create(AWS_ACCESS_KEY, AWS_SECRET_KEY);
