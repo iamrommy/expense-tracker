@@ -9,7 +9,7 @@ export function AddTransactions({
   type,
   amount,
   category,
-//   date,
+  date,
   description,
   paymentMethod,
   currency,
@@ -28,7 +28,7 @@ export function AddTransactions({
           type,
           amount,
           category,
-        //   date,
+          date,
           description,
           paymentMethod,
           currency

@@ -6,6 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import "./AddTransaction.css";
 import { AddTransactions } from "../services/operations/transactionAPI";
 
+const getTodayDate = () => {
+  const today = new Date();
+  return today.toISOString().split("T")[0]; 
+};
+
+const formatDate = (isoDate) => {
+  const [yyyy, mm, dd] = isoDate.split("-");
+  return `${dd}/${mm}/${yyyy}`;
+};
+
 export const AddTransaction = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,13 +29,7 @@ export const AddTransaction = () => {
   const [description, setDescription] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("upi");
   const [currency, setCurrency] = useState("INR");
-
-  // const getTodayDate = () => {
-  //   const today = new Date();
-  //   return today.toISOString().split("T")[0];
-  // };
-
-  // const [date, setDate] = useState(getTodayDate());
+  const [date, setDate] = useState(getTodayDate()); // yyyy-mm-dd
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,11 +38,13 @@ export const AddTransaction = () => {
       type,
       amount: Number(amount),
       category,
-      // date,
+      date: formatDate(date),  // 🔥 Convert to dd/mm/yyyy string
       description,
       paymentMethod,
       currency
     };
+
+    // console.log(transactionData);
 
     dispatch(
       AddTransactions({
@@ -60,6 +66,8 @@ export const AddTransaction = () => {
       <h2 className="add-title">Add Transaction</h2>
 
       <form className="add-form" onSubmit={handleSubmit}>
+        
+        {/* Type */}
         <select
           className="add-input"
           value={type}
@@ -69,6 +77,7 @@ export const AddTransaction = () => {
           <option value="expense">Expense</option>
         </select>
 
+        {/* Amount */}
         <input
           type="number"
           className="add-input"
@@ -78,6 +87,7 @@ export const AddTransaction = () => {
           required
         />
 
+        {/* Currency */}
         <select
           className="add-input"
           value={currency}
@@ -89,6 +99,7 @@ export const AddTransaction = () => {
           <option value="GBP">GBP</option>
         </select>
 
+        {/* Category */}
         <select
           className="add-input"
           value={category}
@@ -101,15 +112,17 @@ export const AddTransaction = () => {
           <option>Entertainment</option>
           <option>Other</option>
         </select>
-{/* 
+
+        {/* Date yyyy-mm-dd (converted later) */}
         <input
           type="date"
           className="add-input"
           value={date}
           onChange={(e) => setDate(e.target.value)}
           required
-        /> */}
+        />
 
+        {/* Payment Method */}
         <select
           className="add-input"
           value={paymentMethod}
@@ -119,6 +132,7 @@ export const AddTransaction = () => {
           <option value="upi">UPI</option>
         </select>
 
+        {/* Description */}
         <textarea
           className="add-input"
           placeholder="Description (Optional)"
@@ -127,6 +141,7 @@ export const AddTransaction = () => {
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
 
+        {/* Submit */}
         <button type="submit" className="add-btn">
           Save Transaction ➕
         </button>
