@@ -17,7 +17,7 @@ function Login() {
 
     dispatch(
       login({
-        email,
+        email: email?.toLowerCase(),
         password,
         navigate
       })

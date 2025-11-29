@@ -38,7 +38,7 @@ export const AddTransaction = () => {
       type,
       amount: Number(amount),
       category,
-      date: formatDate(date),  // 🔥 Convert to dd/mm/yyyy string
+      date: formatDate(date), 
       description,
       paymentMethod,
       currency
