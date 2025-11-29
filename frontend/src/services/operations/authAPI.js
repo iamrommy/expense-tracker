@@ -99,26 +99,24 @@ export function logout(navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
-     
-     
-
+    
       dispatch(setToken(null))
       dispatch(setUser(null))
       dispatch(setTransactions([]))
       const token = localStorage.getItem("token");
-  if (token) {
-    localStorage.removeItem("token");
-  }
+      if (token) {
+        localStorage.removeItem("token");
+      }
 
-  const user = localStorage.getItem("user");
-  if (user) {
-    localStorage.removeItem("user");
-  }
+      const user = localStorage.getItem("user");
+      if (user) {
+        localStorage.removeItem("user");
+      }
 
-  const transactions = localStorage.getItem("transactions");
-  if (transactions) {
-    localStorage.removeItem("transactions");
-  }
+      const transactions = localStorage.getItem("transactions");
+      if (transactions) {
+        localStorage.removeItem("transactions");
+      }
 
       toast.success("Logged Out Succesfully")
       

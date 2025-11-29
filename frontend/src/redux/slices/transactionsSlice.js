@@ -4,6 +4,7 @@ const initialState = {
   transactions: localStorage.getItem("transactions")
     ? JSON.parse(localStorage.getItem("transactions"))
     : [],
+  editTransaction: {},
 };
 
 const transactionsSlice = createSlice({
@@ -13,9 +14,12 @@ const transactionsSlice = createSlice({
     setTransactions(state, action) {
       state.transactions = action.payload;
     },
+    setEditTransaction(state, action) {
+      state.editTransaction = action.payload;
+    },
   },
 });
 
-export const { setTransactions } = transactionsSlice.actions;
+export const { setTransactions, setEditTransaction } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;
