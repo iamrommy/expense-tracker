@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profiles";
 import OpenRoute from "./components/OpenRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { current } from "@reduxjs/toolkit";
 
 const App = () => {
   return (
