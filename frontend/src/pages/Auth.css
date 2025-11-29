@@ -1,13 +1,11 @@
 /* Page Wrapper */
 .auth-wrapper {
-  min-height: 100vh;
-  background: linear-gradient(135deg, red, #f81c53, #dc52ff);
+  background: white;
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 40px;
   font-family: "Poppins", sans-serif;
 }
 
@@ -32,8 +30,9 @@
 .auth-btn-group {
   display: flex;
   gap: 20px;
-  justify-content: center; /* ensure perfect centering */
+  justify-content: start; /* ensure perfect centering */
   margin-top: 25px;
+  align-items: start;
 }
 
 /* Buttons */
@@ -53,13 +52,15 @@
 }
 /* Login button */
 .login-btn {
-  background: #00d4ff;
+  background: white;
   color: #000;
+  font-weight: 800;
 }
 
 /* Register button */
 .register-btn {
-  background: #00ff85;
+  background: white;
+  font-weight: 800;
   color: #000;
 }
 
@@ -98,4 +99,17 @@
   .auth-img {
     width: 160px;
   }
+}
+
+.cursor {
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.right-wrapper{
+  text-align: start;
+    padding-left: 30px;
 }

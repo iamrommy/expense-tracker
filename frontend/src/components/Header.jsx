@@ -1,10 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
 import { useSelector } from "react-redux";
+import bg from "../assets/bg_f1_homepage.png";
 
 const Header = () => {
   const navigate = useNavigate();
-  const {user} = useSelector((state)=>state.user);
+  const { user } = useSelector((state) => state.user);
 
   const handleLogout = () => {
     // 🔐 Clear auth later
@@ -12,27 +13,32 @@ const Header = () => {
   };
 
   return (
-    <nav className="navbar">
-      <h2 className="logo">ExpenseTracker 💸</h2>
+    <div className="navbar">
+      <h2 className="logo">Expensify</h2>
 
-      <ul className="nav-links">
-        <li><NavLink to="/" className="nav-item">Home</NavLink></li>
-        <li><NavLink to="/dashboard" className="nav-item">Dashboard</NavLink></li>
-        <li><NavLink to="/add-transaction" className="nav-item">Add</NavLink></li>
-        <li><NavLink to="/transactions" className="nav-item">History</NavLink></li>
-        <li><NavLink to="/reports" className="nav-item">Reports</NavLink></li>
+      <ul className="nav-links" style={{ backgroundImage: `url(${bg})`}}>
+        {user ? (
+          <>
+            <li><NavLink to="/" className="nav-item">Home</NavLink></li>
+            <li><NavLink to="/dashboard" className="nav-item">Dashboard</NavLink></li>
+            <li><NavLink to="/add-transaction" className="nav-item">Add</NavLink></li>
+            <li><NavLink to="/transactions" className="nav-item">History</NavLink></li>
+            <li><NavLink to="/reports" className="nav-item">Reports</NavLink></li>
+          </>
+        ) : (
+          <></>
+        )}
+
         <li>
-        {
-          user ? (
+          {user ? (
             <NavLink to="/profile" className="login-btn">Profile</NavLink>
           ) : (
-            <NavLink to="/auth" className="login-btn" onClick={handleLogout}>Login</NavLink>
-          )
-        }
+            <></>
+          )}
         </li>
       </ul>
-    </nav>
+    </div>
   );
-}
+};
 
 export default Header;

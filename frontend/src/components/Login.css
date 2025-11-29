@@ -1,8 +1,8 @@
 /* Wrapper */
 .login-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, red, #f81c53, #dc52ff);
-  
+  display: flex;
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
