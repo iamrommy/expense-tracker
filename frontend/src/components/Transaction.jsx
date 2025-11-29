@@ -1,19 +1,12 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import "./Transaction.css";
 import { useNavigate } from "react-router-dom";
+import {useSelector} from "react-redux"
 
 const Transaction = () => {
   // Dummy Data (replace with backend data later)
-  const [transactions, setTransactions] = useState([
-    { id: 1, type: "Expense", category: "Food", amount: 250, date: "2025-03-01" },
-    { id: 2, type: "Income", category: "Salary", amount: 50000, date: "2025-03-05" },
-    { id: 3, type: "Expense", category: "Transport", amount: 120, date: "2025-03-06" },
-  ]);
+  const {transactions}  = useSelector((state)=>state.transactions)
   const navigate=useNavigate();
-  const handleDelete = (id) => {
-    setTransactions(transactions.filter((t) => t.id !== id));
-  };
 
   return (
     <motion.div
@@ -45,7 +38,7 @@ const Transaction = () => {
                 <td>₹{txn.amount}</td>
                 <td>
                   <button className="edit-btn" onClick={() => navigate(`/edit-transaction/${txn.id}`)}>Edit</button>
-                  <button className="delete-btn" onClick={() => handleDelete(txn.id)}>
+                  <button className="delete-btn">
                     Delete
                   </button>
                 </td>

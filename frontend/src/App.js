@@ -4,12 +4,17 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 
 import Register from "./components/Register";
-import Home from "./pages/Home";
 import {AddTransaction} from "./components/AddTransaction";
 import Report from "./pages/Report";
 import Transaction from "./components/Transaction";
-import Header from "./components/Hearder";
+import Header from "./components/Header";
 import EditTransaction from "./components/EditTransaction";
+import Auth from "./pages/Auth";
+import Home from "./pages/Home";
+import Profile from "./pages/Profiles";
+import OpenRoute from "./components/OpenRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { current } from "@reduxjs/toolkit";
 
 const App = () => {
   return (
@@ -19,15 +24,17 @@ const App = () => {
 
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/auth" element={<OpenRoute><Auth /></OpenRoute>} />
+        <Route path="/login" element={<OpenRoute><Login /></OpenRoute>} />
+        <Route path="/register" element={<OpenRoute><Register /></OpenRoute>} />
 
         {/* Protected Route */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/add-transaction" element={<AddTransaction />} />
-        <Route path="/reports" element={<Report />} />
-        <Route path="/transactions" element={<Transaction />} />
-        <Route path="/edit-transaction/:id" element={<EditTransaction />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/add-transaction" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
+        <Route path="/reports" element={<ProtectedRoute><Report /></ProtectedRoute>} />
+        <Route path="/transactions" element={<ProtectedRoute><Transaction /></ProtectedRoute>} />
+        <Route path="/edit-transaction/:id" element={<ProtectedRoute><EditTransaction /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
         {/* Page Not Found */}
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
 
