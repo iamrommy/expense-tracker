@@ -59,7 +59,7 @@ const Dashboard = ()=> {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.7 }}
       >
-        <Link to="/add-transaction" className="dash-btn add-btn">
+        <Link to="/add-transaction" className="dash-btn dash-add-btn">
           Add Transaction ➕
         </Link>
         <Link to="/reports" className="dash-btn report-btn">

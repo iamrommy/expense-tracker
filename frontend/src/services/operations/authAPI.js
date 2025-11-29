@@ -1,6 +1,7 @@
 import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiConnector"
 import { endpoints } from "../apis"
+import { setToken, setUser } from "../../redux/slices/userSlice";
 
 const {
     LOGIN_API, 
@@ -23,7 +24,13 @@ export function Signup({username, email, password, navigate}) {
       if (response.status !== 200) {
         throw new Error("SignUp Failed")
       }
+
       toast.success("Registered Succesfully")
+      dispatch(setToken(response.data.token))
+      dispatch(setUser({ ...response.data.user}))
+      localStorage.setItem("token", JSON.stringify(response.data.token))
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
       navigate("/")
       
     } catch (error) {
@@ -60,6 +67,12 @@ export function login({email, password, navigate}) {
         throw new Error("LogIn Failed")
       }
       toast.success("Logged In Succesfully")
+
+      dispatch(setToken(response.data.token))
+      dispatch(setUser({ ...response.data.user}))
+      localStorage.setItem("token", JSON.stringify(response.data.token))
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      
       navigate("/")
       
     } catch (error) {

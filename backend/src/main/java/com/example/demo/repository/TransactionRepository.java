@@ -47,8 +47,8 @@ public class TransactionRepository {
         item.put("description", AttributeValue.builder().s(t.getDescription()).build());
         item.put("category", AttributeValue.builder().s(t.getCategory()).build());
         item.put("timestamp", AttributeValue.builder().s(t.getTimestamp().toString()).build());
-        item.put("currency", AttributeValue.builder().s(t.getCurrency().toString()).build());
-        item.put("paymentMethod", AttributeValue.builder().s(t.getPaymentMethod().toString()).build());
+        item.put("currency", AttributeValue.builder().s(t.getCurrency()).build());
+        item.put("paymentMethod", AttributeValue.builder().s(t.getPaymentMethod()).build());
 
         PutItemRequest req = PutItemRequest.builder().tableName(tableName).item(item).build();
         ddb.putItem(req);
