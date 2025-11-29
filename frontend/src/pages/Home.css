@@ -2,7 +2,7 @@
 .home-wrapper {
   background: white;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;

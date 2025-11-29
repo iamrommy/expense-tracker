@@ -39,7 +39,7 @@ function Login() {
         animate={{ scale: 1 }}
         transition={{ duration: 0.6 }}
       >
-        Welcome Back 👋
+        Welcome Back!
       </motion.h2>
 
     

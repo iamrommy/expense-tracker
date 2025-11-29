@@ -1,12 +1,14 @@
 /* Wrapper */
 .register-wrapper {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 25px;
+  padding: 100px;
   font-family: "Poppins", sans-serif;
+      justify-content: start;
+      height: 70vh;
+      background-color: #000;
 }
 
 /* Form Card */
@@ -55,11 +57,13 @@
   width: 100%;
   margin-top: 22px;
   padding: 14px;
+  font-weight: 800;
   border-radius: 10px;
   border: none;
   background: #00ff8f;
   color: #000;
   font-size: 1.1rem;
+  width: 106%;
   font-weight: 700;
   cursor: pointer;
   transition: 0.25s;

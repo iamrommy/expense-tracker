@@ -2,6 +2,7 @@ import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiConnector"
 import { endpoints } from "../apis"
 import { setToken, setUser } from "../../redux/slices/userSlice";
+import { setTransactions } from "../../redux/slices/transactionsSlice";
 
 const {
     LOGIN_API, 
@@ -73,7 +74,7 @@ export function login({email, password, navigate}) {
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user));
       
-      navigate("/")
+      navigate("/profile")
       
     } catch (error) {
       // console.log("LOGIN API ERROR............", error)
@@ -87,6 +88,46 @@ export function login({email, password, navigate}) {
         toast.error("Login Failed")
       }
       navigate("/login")
+    }
+    toast.dismiss(toastId)
+  }
+}
+
+
+export function logout(navigate) {
+
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...")
+    try {
+     
+     
+
+      dispatch(setToken(null))
+      dispatch(setUser(null))
+      dispatch(setTransactions([]))
+      const token = localStorage.getItem("token");
+  if (token) {
+    localStorage.removeItem("token");
+  }
+
+  const user = localStorage.getItem("user");
+  if (user) {
+    localStorage.removeItem("user");
+  }
+
+  const transactions = localStorage.getItem("transactions");
+  if (transactions) {
+    localStorage.removeItem("transactions");
+  }
+
+      toast.success("Logged Out Succesfully")
+      
+      navigate("/")
+      
+    } catch (error) {
+     
+      toast.error("Logout Failed")
+      
     }
     toast.dismiss(toastId)
   }

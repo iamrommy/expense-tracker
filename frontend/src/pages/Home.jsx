@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import "./Home.css";
 import frontPicture from "../assets/img.svg"
 import { useSelector } from "react-redux";
+import Features from "../components/Features";
 
 const Home = () =>{
   
@@ -14,18 +15,19 @@ const Home = () =>{
       initial={{ opacity: 0, y: -40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      style={{backgroundColor : "black" , height : "88vh"} }
+      style={{backgroundColor : "black" } }
     >
-      <div className="left-wrapper" style={{}}>
-        <img src= {frontPicture}></img>
+      <div className="upper" style={{display : "flex" , flexDirection : "row-reverse", marginTop : "30px"}}>
+         <div className="left-wrapper" style={{}}>
+        <img style={{width : "94vh" , padding : "40px"}} src= {frontPicture}></img>
       </div>
-      <div className="right-wrapper">
+      <div style={{marginTop : "20px"}} className="right-wrapper">
          <motion.h1
         className="home-title"
         initial={{ scale: 0.6 }}
         animate={{ scale: 1 }}
         transition={{ duration: 0.6 }}
-        style={{fontWeight: "800", color : "white", width : "70%"}}
+        style={{fontWeight: "800", color : "white", width : "40%"}}
       >
       The <span style={{color : "cadetblue"}}>easiest</span> way
       to do your expenses
@@ -54,8 +56,17 @@ const Home = () =>{
             </>
           )
         }
-
       </motion.div>
+      </div>
+      </div>
+      <div className="lower">
+          {
+        user && (
+          <>
+          <Features />
+          </>
+        )
+      }
       </div>
     </motion.div>
 

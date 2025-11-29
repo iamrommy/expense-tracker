@@ -40,7 +40,7 @@ const Register = () => {
         animate={{ scale: 1 }}
         transition={{ duration: 0.6 }}
       >
-        Create Account ✨
+        Create Account
       </motion.h2>
 
       <form className="register-form" onSubmit={handleRegister}>

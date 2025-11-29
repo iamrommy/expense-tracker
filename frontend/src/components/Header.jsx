@@ -16,7 +16,7 @@ const Header = () => {
     <div className="navbar">
       <h2 className="logo">Expensify</h2>
 
-      <ul className="nav-links" style={{ backgroundImage: `url(${bg})`}}>
+      <ul className="nav-links">
         {user ? (
           <>
             <li><NavLink to="/" className="nav-item">Home</NavLink></li>
