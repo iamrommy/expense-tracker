@@ -14,6 +14,6 @@ public class Transaction {
   private String category;
   private Instant timestamp;
 
-  private Instant currency;
-  private Instant paymentMethod;
+  private String currency;
+  private String paymentMethod;
 }

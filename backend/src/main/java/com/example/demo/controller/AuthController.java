@@ -33,7 +33,7 @@ public class AuthController {
         String hashed = passwordEncoder.encode(req.getPassword());
         // User user = userService.register(req.getUsername(), hashed, req.getEmail(), req.getMonthlyGoal());
         User user = userService.register(req.getUsername(), hashed, req.getEmail());
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user.getEmail());
         return ResponseEntity.ok(new AuthResponse(user, token));
     }
 
@@ -48,7 +48,7 @@ public class AuthController {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user.getEmail());
         return ResponseEntity.ok(new AuthResponse(user, token));
     }
 }

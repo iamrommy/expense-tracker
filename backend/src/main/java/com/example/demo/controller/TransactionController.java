@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Transaction;
+import com.example.demo.model.User;
 import com.example.demo.service.TransactionService;
 
 @RestController
@@ -29,9 +31,10 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> addTransaction(@RequestBody Transaction t, Authentication auth) {
-        String username = (String) auth.getPrincipal();
+        User user = (User) auth.getPrincipal();
+        String userId = user.getUserId();
         // use username as userId in this demo, or map to userId from userstore
-        t.setUserId(username);
+        t.setUserId(userId);
         t.setTimestamp(Instant.now());
         var saved = txService.addTransaction(t);
         return ResponseEntity.ok(saved);
@@ -39,8 +42,9 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<List<Transaction>> getTransactions(Authentication auth) {
-        String username = (String) auth.getPrincipal();
-        var list = txService.getTransactionsForUser(username);
+        User user = (User) auth.getPrincipal();
+        String userId = user.getUserId();
+        var list = txService.getTransactionsForUser(userId);
         return ResponseEntity.ok(list);
     }
 
@@ -51,14 +55,15 @@ public class TransactionController {
             @RequestBody Transaction t,
             Authentication auth) {
 
-        String username = (String) auth.getPrincipal();
+        User user = (User) auth.getPrincipal();
+        String userId = user.getUserId();
 
         // Enforce user ID and transactionId
-        t.setUserId(username);
+        t.setUserId(userId);
         t.setTransactionId(transactionId);
 
-        txService.updateTransaction(t);
-        return ResponseEntity.ok(t);
+        Transaction newtxn = txService.updateTransaction(t);
+        return ResponseEntity.ok(newtxn);
     }
 
     // DELETE
@@ -67,9 +72,27 @@ public class TransactionController {
             @PathVariable String transactionId,
             Authentication auth) {
 
-        String username = (String) auth.getPrincipal();
-        txService.deleteTransaction(username, transactionId);
+        User user = (User) auth.getPrincipal();
+        String userId = user.getUserId();
+        txService.deleteTransaction(userId, transactionId);
 
         return ResponseEntity.ok("Transaction deleted successfully.");
+    }
+
+    @GetMapping("/transaction/{transactionId}")
+    public ResponseEntity<?> getTransactionById(
+            @PathVariable String transactionId,
+            Authentication auth) {
+
+        User user = (User) auth.getPrincipal();
+        String userId = user.getUserId();
+
+        Transaction txn = txService.getTransactionById(userId, transactionId);
+
+        // if (txn == null) {
+        //     throw new ResourceNotFoundException("Transaction not found with ID: " + transactionId);
+        // }
+
+        return ResponseEntity.ok(txn);
     }
 }

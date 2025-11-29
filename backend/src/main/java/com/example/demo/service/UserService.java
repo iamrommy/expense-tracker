@@ -5,7 +5,10 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.DatabaseException;
+import com.example.demo.exception.InvalidTransactionException;
 import com.example.demo.exception.UserAlreadyExistsException;
+import com.example.demo.model.Transaction;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
@@ -21,35 +24,69 @@ public class UserService {
     // Register and persist
     public User register(String username, String passwordHash, String email) {
 
-        boolean existing = userRepository.findByUsername(username);
-
-        if (existing) {
-            throw new UserAlreadyExistsException("Username already taken");
+        if (username == null || username.isBlank()) {
+            throw new InvalidTransactionException("Username is required");
+        }
+        if (passwordHash == null || passwordHash.isBlank()) {
+            throw new InvalidTransactionException("Password is required");
+        }
+        if (email == null || email.isBlank()) {
+            throw new InvalidTransactionException("Email is required");
         }
 
-        Optional<User> exists = userRepository.findByEmail(email);
-        
-        if(exists.isPresent()) {
-            throw new UserAlreadyExistsException("User with email already exists");
+        try {
+            boolean usernameExists = userRepository.findByUsername(username);
+            if (usernameExists) {
+                throw new UserAlreadyExistsException("Username already taken");
+            }
+
+            Optional<User> emailExists = userRepository.findByEmail(email);
+            if (emailExists.isPresent()) {
+                throw new UserAlreadyExistsException("User with email already exists");
+            }
+
+            User user = new User();
+            user.setUserId(UUID.randomUUID().toString());
+            user.setUsername(username);
+            user.setPasswordHash(passwordHash);
+            user.setEmail(email);
+
+            userRepository.save(user);
+
+            return user;
+
+        } catch (UserAlreadyExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DatabaseException("Failed to register user");
         }
-        
-        User u = new User();
-        u.setUserId(UUID.randomUUID().toString());
-        u.setUsername(username);
-        u.setPasswordHash(passwordHash);
-        u.setEmail(email);
-        // u.setMonthlyGoal(monthlyGoal);
-        userRepository.save(u);
-        return u;
     }
 
     public boolean findByUsername(String username) {
-        boolean opt = userRepository.findByUsername(username);
-        return opt;
+
+        if (username == null || username.isBlank()) {
+            throw new InvalidTransactionException("Username is required");
+        }
+
+        try {
+            return userRepository.findByUsername(username);
+        } catch (Exception e) {
+            throw new DatabaseException("Failed to check username: " + username);
+        }
     }
 
     public User findByEmail(String email) {
-        Optional<User> opt = userRepository.findByEmail(email);
-        return opt.orElse(null);
+
+        if (email == null || email.isBlank()) {
+            throw new InvalidTransactionException("Email is required");
+        }
+
+        try {
+            Optional<User> opt = userRepository.findByEmail(email);
+            return opt.orElse(null);
+        } catch (Exception e) {
+            throw new DatabaseException("Failed to find user by email: " + email);
+        }
     }
+
 }
