@@ -100,6 +100,8 @@ public class TransactionService {
             existing.setPaymentMethod(t.getPaymentMethod());
         if (t.getTimestamp() != null)
             existing.setTimestamp(t.getTimestamp());
+        if (t.getDate() != null)
+            existing.setDate(t.getDate());
 
         try {
             repository.update(existing);

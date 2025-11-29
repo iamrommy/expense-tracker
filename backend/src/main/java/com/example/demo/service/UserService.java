@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.exception.DatabaseException;
 import com.example.demo.exception.InvalidTransactionException;
 import com.example.demo.exception.UserAlreadyExistsException;
-import com.example.demo.model.Transaction;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
@@ -86,6 +86,32 @@ public class UserService {
             return opt.orElse(null);
         } catch (Exception e) {
             throw new DatabaseException("Failed to find user by email: " + email);
+        }
+    }
+
+    public User updateMonthlyGoal(String email, String newGoal) {
+
+        try {
+            // Step 1: Find user using email (via GSI)
+            User user = findByEmail(email);
+            if (user == null) {
+                throw new UserNotFoundException("User not found with email: " + email);
+            }
+
+            String username = user.getUsername(); // this is the PK
+
+            // Step 2: Update using PK (username)
+            userRepository.updateMonthlyGoalByUsername(username, newGoal);
+
+            // Step 3: Re-fetch updated user
+            Optional<User> updated = userRepository.findByEmail(email);
+
+            return updated.orElseThrow(() -> new UserNotFoundException("User not found after update: " + email));
+
+        } catch (UserNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DatabaseException("Failed to update monthly goal");
         }
     }
 

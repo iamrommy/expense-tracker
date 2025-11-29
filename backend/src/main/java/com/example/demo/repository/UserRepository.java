@@ -19,6 +19,7 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 
 @Repository
 public class UserRepository {
@@ -44,7 +45,8 @@ public class UserRepository {
         item.put("userId", AttributeValue.builder().s(user.getUserId()).build());
         item.put("passwordHash", AttributeValue.builder().s(user.getPasswordHash()).build());
         item.put("email", AttributeValue.builder().s(user.getEmail()).build());
-        // item.put("monthlyGoal", AttributeValue.builder().s(user.getMonthlyGoal()).build());
+        // item.put("monthlyGoal",
+        // AttributeValue.builder().s(user.getMonthlyGoal()).build());
         PutItemRequest req = PutItemRequest.builder()
                 .tableName(tableName)
                 .item(item)
@@ -58,50 +60,96 @@ public class UserRepository {
                 .key(Map.of("username", AttributeValue.builder().s(username).build()))
                 .build();
         GetItemResponse resp = ddb.getItem(req);
-    
+
         return !resp.item().isEmpty();
     }
 
     // public Optional<User> findByEmail(String email) {
-    //     GetItemRequest req = GetItemRequest.builder()
-    //             .tableName(tableName)
-    //             .key(Map.of("email", AttributeValue.builder().s(email).build()))
-    //             .build();
-    //     GetItemResponse resp = ddb.getItem(req);
-    //     if (!resp.hasItem() || resp.item().isEmpty())
-    //         return Optional.empty();
-    //     Map<String, AttributeValue> m = resp.item();
-    //     User u = new User();
-    //     u.setUserId(m.getOrDefault("userId", AttributeValue.builder().s("").build()).s());
-    //     u.setUsername(m.get("username").s());
-    //     u.setPasswordHash(m.get("passwordHash").s());
-    //     u.setEmail(m.get("email").s());
-    //     // u.setMonthlyGoal(m.get("monthlyGoal").s());
-    //     return Optional.of(u);
+    // GetItemRequest req = GetItemRequest.builder()
+    // .tableName(tableName)
+    // .key(Map.of("email", AttributeValue.builder().s(email).build()))
+    // .build();
+    // GetItemResponse resp = ddb.getItem(req);
+    // if (!resp.hasItem() || resp.item().isEmpty())
+    // return Optional.empty();
+    // Map<String, AttributeValue> m = resp.item();
+    // User u = new User();
+    // u.setUserId(m.getOrDefault("userId",
+    // AttributeValue.builder().s("").build()).s());
+    // u.setUsername(m.get("username").s());
+    // u.setPasswordHash(m.get("passwordHash").s());
+    // u.setEmail(m.get("email").s());
+    // // u.setMonthlyGoal(m.get("monthlyGoal").s());
+    // return Optional.of(u);
     // }
 
     public Optional<User> findByEmail(String email) {
-    QueryRequest req = QueryRequest.builder()
-        .tableName(tableName)
-        .indexName("email-index")
-        .keyConditionExpression("email = :email")
-        .expressionAttributeValues(
-            Map.of(":email", AttributeValue.builder().s(email).build())
-        )
-        .build();
+        QueryRequest req = QueryRequest.builder()
+                .tableName(tableName)
+                .indexName("email-index")
+                .keyConditionExpression("email = :email")
+                .expressionAttributeValues(
+                        Map.of(":email", AttributeValue.builder().s(email).build()))
+                .build();
 
-    QueryResponse resp = ddb.query(req);
+        QueryResponse resp = ddb.query(req);
 
-    if (resp.count() == 0) return Optional.empty();
+        if (resp.count() == 0)
+            return Optional.empty();
 
-    Map<String, AttributeValue> m = resp.items().get(0);
+        Map<String, AttributeValue> m = resp.items().get(0);
 
-    User u = new User();
-    u.setUserId(m.get("userId").s());
-    u.setUsername(m.get("username").s());
-    u.setPasswordHash(m.get("passwordHash").s());
-    u.setEmail(m.get("email").s());
-    return Optional.of(u);
-}
+        User u = new User();
+        u.setUserId(m.get("userId").s());
+        u.setUsername(m.get("username").s());
+        u.setPasswordHash(m.get("passwordHash").s());
+        u.setEmail(m.get("email").s());
+        u.setMonthlyGoal(m.get("monthlyGoal").s());
+        return Optional.of(u);
+    }
+
+    public Optional<User> findByUserId(String userId) {
+        GetItemRequest req = GetItemRequest.builder()
+                .tableName(tableName)
+                .key(Map.of("userId", AttributeValue.builder().s(userId).build()))
+                .build();
+
+        GetItemResponse resp = ddb.getItem(req);
+
+        if (!resp.hasItem() || resp.item().isEmpty())
+            return Optional.empty();
+
+        Map<String, AttributeValue> m = resp.item();
+
+        User u = new User();
+        u.setUserId(m.get("userId").s());
+        u.setUsername(m.get("username").s());
+        u.setPasswordHash(m.get("passwordHash").s());
+        u.setEmail(m.get("email").s());
+        u.setMonthlyGoal(
+                m.containsKey("monthlyGoal")
+                        ? m.get("monthlyGoal").s()
+                        : null);
+
+        return Optional.of(u);
+    }
+
+    public void updateMonthlyGoalByUsername(String username, String monthlyGoal) {
+
+        Map<String, AttributeValue> key = Map.of(
+                "username", AttributeValue.builder().s(username).build());
+
+        Map<String, AttributeValue> updates = Map.of(
+                ":goal", AttributeValue.builder().s(monthlyGoal).build());
+
+        UpdateItemRequest req = UpdateItemRequest.builder()
+                .tableName(tableName)
+                .key(key)
+                .updateExpression("SET monthlyGoal = :goal")
+                .expressionAttributeValues(updates)
+                .build();
+
+        ddb.updateItem(req);
+    }
 
 }

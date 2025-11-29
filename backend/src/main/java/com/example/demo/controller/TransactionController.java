@@ -33,7 +33,7 @@ public class TransactionController {
     public ResponseEntity<?> addTransaction(@RequestBody Transaction t, Authentication auth) {
         User user = (User) auth.getPrincipal();
         String userId = user.getUserId();
-        // use username as userId in this demo, or map to userId from userstore
+
         t.setUserId(userId);
         t.setTimestamp(Instant.now());
         var saved = txService.addTransaction(t);
@@ -58,7 +58,6 @@ public class TransactionController {
         User user = (User) auth.getPrincipal();
         String userId = user.getUserId();
 
-        // Enforce user ID and transactionId
         t.setUserId(userId);
         t.setTransactionId(transactionId);
 
@@ -89,9 +88,9 @@ public class TransactionController {
 
         Transaction txn = txService.getTransactionById(userId, transactionId);
 
-        // if (txn == null) {
-        //     throw new ResourceNotFoundException("Transaction not found with ID: " + transactionId);
-        // }
+        if (txn == null) {
+            throw new ResourceNotFoundException("Transaction not found with ID: " + transactionId);
+        }
 
         return ResponseEntity.ok(txn);
     }

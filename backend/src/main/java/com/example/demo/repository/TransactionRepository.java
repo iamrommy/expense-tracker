@@ -49,6 +49,7 @@ public class TransactionRepository {
         item.put("timestamp", AttributeValue.builder().s(t.getTimestamp().toString()).build());
         item.put("currency", AttributeValue.builder().s(t.getCurrency().toString()).build());
         item.put("paymentMethod", AttributeValue.builder().s(t.getPaymentMethod().toString()).build());
+        item.put("date", AttributeValue.builder().s(t.getDate().toString()).build());
 
         PutItemRequest req = PutItemRequest.builder().tableName(tableName).item(item).build();
         ddb.putItem(req);
@@ -73,6 +74,7 @@ public class TransactionRepository {
             t.setTimestamp(Instant.parse(m.get("timestamp").s()));
             t.setCurrency(m.get("currency").s());
             t.setPaymentMethod(m.get("paymentMethod").s());
+            t.setDate(m.get("date").s());
             list.add(t);
         }
         return list;
@@ -104,6 +106,7 @@ public class TransactionRepository {
         t.setTimestamp(Instant.parse(m.get("timestamp").s()));
         t.setCurrency(m.get("currency").s());
         t.setPaymentMethod(m.get("paymentMethod").s());
+        t.setDate(m.get("date").s());
 
         return t;
     }
@@ -145,6 +148,7 @@ public class TransactionRepository {
         addField.accept("currency", t.getCurrency());
         addField.accept("paymentMethod", t.getPaymentMethod());
         addField.accept("timestamp", t.getTimestamp());
+        addField.accept("date", t.getDate());
 
         // remove last comma
         String finalUpdateExp = updateExp.substring(0, updateExp.length() - 2);
