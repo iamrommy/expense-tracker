@@ -19,7 +19,7 @@ export function Signup({username, email, password, navigate}) {
         password
       })
 
-      console.log("REGISTER API RESPONSE............", response)
+      // console.log("REGISTER API RESPONSE............", response)
 
       if (response.status !== 200) {
         throw new Error("SignUp Failed")
@@ -34,7 +34,7 @@ export function Signup({username, email, password, navigate}) {
       navigate("/")
       
     } catch (error) {
-      console.log("REGISTER API ERROR............", error)
+      // console.log("REGISTER API ERROR............", error)
 
       const message = error?.response?.data?.message;
 
