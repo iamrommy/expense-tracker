@@ -9,12 +9,10 @@ import Report from "./pages/Report";
 import Transaction from "./components/Transaction";
 import Header from "./components/Header";
 import EditTransaction from "./components/EditTransaction";
-import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import Profile from "./pages/Profiles";
 import OpenRoute from "./components/OpenRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { current } from "@reduxjs/toolkit";
 
 const App = () => {
   return (
@@ -24,7 +22,6 @@ const App = () => {
 
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<OpenRoute><Auth /></OpenRoute>} />
         <Route path="/login" element={<OpenRoute><Login /></OpenRoute>} />
         <Route path="/register" element={<OpenRoute><Register /></OpenRoute>} />
 

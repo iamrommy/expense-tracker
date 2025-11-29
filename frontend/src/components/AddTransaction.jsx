@@ -6,11 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import "./AddTransaction.css";
 import { AddTransactions } from "../services/operations/transactionAPI";
 
-const getTodayDate = () => {
-  const today = new Date();
-  return today.toISOString().split("T")[0]; 
-};
-
 const formatDate = (isoDate) => {
   const [yyyy, mm, dd] = isoDate.split("-");
   return `${dd}/${mm}/${yyyy}`;

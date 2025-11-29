@@ -9,7 +9,7 @@ function OpenRoute({ children }) {
   if (user === null) {
     return children
   } else {
-    return <Navigate to="/profile" />
+    return <Navigate to="/" />
   }
 }
 

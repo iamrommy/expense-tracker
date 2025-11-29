@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import {useSelector} from "react-redux"
 
 const Transaction = () => {
-  // Dummy Data (replace with backend data later)
   const {transactions}  = useSelector((state)=>state.transactions)
   const navigate=useNavigate();
-
+  
   return (
     <motion.div
       className="history-wrapper"
