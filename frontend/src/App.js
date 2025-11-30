@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-
 import Register from "./components/Register";
 import {AddTransaction} from "./components/AddTransaction";
 import Report from "./pages/Report";
@@ -26,7 +24,6 @@ const App = () => {
         <Route path="/register" element={<OpenRoute><Register /></OpenRoute>} />
 
         {/* Protected Route */}
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/add-transaction" element={<ProtectedRoute><AddTransaction /></ProtectedRoute>} />
         <Route path="/reports" element={<ProtectedRoute><Report /></ProtectedRoute>} />
         <Route path="/transactions" element={<ProtectedRoute><Transaction /></ProtectedRoute>} />
