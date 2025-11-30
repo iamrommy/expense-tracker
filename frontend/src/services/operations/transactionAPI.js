@@ -67,40 +67,47 @@ export function AddTransactions({
   };
 }
 
-export function LoadTransactions({token}) {
-
+export function LoadTransactions({ token }) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading Transactions...");
 
     try {
       const response = await apiConnector(
         "GET",
-        TRANSACTIONS_API, {},
+        TRANSACTIONS_API,
+        {},
         {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         }
       );
 
-      // console.log("Load Transanctions API RESPONSE:", response);
+        // console.log("LOAD TRANSACTION API RESPONSE:", response);
 
       if (response.status !== 200) {
-        throw new Error("Loading Transactions Failed")
+        throw new Error("Loading Transactions Failed");
       }
-
-      // toast.success("Transactions Loaded");
 
       dispatch(setTransactions(response?.data));
       localStorage.setItem("transactions", JSON.stringify(response?.data));
 
     } catch (error) {
-    //   console.log("TRANSACTION API ERROR:", error);
-      toast.error("Error Loading Transactions");
+
+      // extract safe lowercase message
+      const message = error?.response?.data?.message?.toLowerCase() || "";
+
+      // 🔥 Specific case: no transactions for this user
+      if (!message.includes("no transactions found")){
+        toast.error("Error Loading Transactions");
+      } 
+
+      // console.log("TRANSACTION API ERROR:", error);
     }
 
     toast.dismiss(toastId);
   };
 }
+
 
 export function EditTransactions(id, token, transaction, transactions, navigate) {
 
@@ -143,5 +150,46 @@ export function EditTransactions(id, token, transaction, transactions, navigate)
     }
 
     toast.dismiss(toastId);
+  };
+}
+
+export function DeleteTransactions(id, token, transaction, transactions, done) {
+
+  return async (dispatch) => {
+    const toastId = toast.loading("Saving Changes...");
+
+    try {
+      const response = await apiConnector(
+        "DELETE",
+        `${TRANSACTIONS_API}/${id}`, {},
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      );
+
+      console.log("DELETE Transanctions API RESPONSE:", response);
+
+      if (response.status !== 200) {
+        throw new Error("Delete Transaction Failed")
+      }
+
+      toast.success("Transaction Deleted Succesfully");
+
+      const updatedTransactions = transactions.filter(
+        (t) => t.transactionId !== transaction.transactionId
+      );
+
+      dispatch(setTransactions(updatedTransactions));
+      localStorage.setItem("transactions", JSON.stringify(updatedTransactions));
+
+    } catch (error) {
+      console.log("DELETE TRANSACTION API ERROR:", error);
+      toast.error("Error Deleting Transactions");
+    }
+
+    toast.dismiss(toastId);
+
+    if(done) done();
   };
 }

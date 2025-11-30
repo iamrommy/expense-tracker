@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import "./Transaction.css";
 import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
-import { useEffect } from "react";
-import { LoadTransactions } from "../services/operations/transactionAPI";
+import { useEffect, useState } from "react";
+import { DeleteTransactions, LoadTransactions } from "../services/operations/transactionAPI";
 import { setEditTransaction } from "../redux/slices/transactionsSlice";
 
 const Transaction = () => {
@@ -11,6 +11,7 @@ const Transaction = () => {
   const {token}  = useSelector((state)=>state.user)
   const navigate=useNavigate();
   const dispatch=useDispatch();
+  const [isDisabled, setIsDisabled] = useState(false);
   
   useEffect(()=>{
     if(transactions.length === 0){
@@ -25,6 +26,23 @@ const Transaction = () => {
     dispatch(setEditTransaction(txn));
 
     navigate(`/edit-transaction/${txn?.transactionId}`);
+  }
+
+  const handleDeleteOnClick = (txn)=>{
+
+    console.log("transaction to be deleted : ", txn);
+
+    setIsDisabled(true);
+
+    dispatch(
+      DeleteTransactions(
+        txn?.transactionId, 
+        token, 
+        txn, 
+        transactions,
+        () => setIsDisabled(false)  
+      )
+    )
   }
 
   return (
@@ -57,7 +75,7 @@ const Transaction = () => {
                 <td>₹{txn?.amount}</td>
                 <td>
                   <button className="edit-btn" onClick={()=>handleEditOnClick(txn)}>Edit</button>
-                  <button className="delete-btn">
+                  <button className="delete-btn" onClick={()=>handleDeleteOnClick(txn)} disabled={isDisabled}>
                     Delete
                   </button>
                 </td>
