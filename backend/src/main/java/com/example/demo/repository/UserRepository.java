@@ -110,9 +110,10 @@ public class UserRepository {
                         u.setEmail(m.get("email").s());
 
                         // handle number/string safely
-                        if (m.containsKey("monthlyGoal") && m.get("monthlyGoal").n() != null) {
-                                u.setMonthlyGoal(m.get("monthlyGoal").n());
+                        if (m.containsKey("monthlyGoal") && m.get("monthlyGoal").s() != null) {
+                                u.setMonthlyGoal(m.get("monthlyGoal").s());
                         }
+
 
                         return Optional.of(u);
 
