@@ -31,7 +31,7 @@ const Header = () => {
 
         <li>
           {user ? (
-            <NavLink to="/profile" className="login-btn">Profile</NavLink>
+            <NavLink to="/profile" className= "nav-item">Profile</NavLink>
           ) : (
             <></>
           )}
