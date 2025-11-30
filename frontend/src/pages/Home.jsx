@@ -38,7 +38,7 @@ const Home = () =>{
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.8 }}
-        style={{fontWeight : "700" , color : "white", display : "flex", justifyContent : "justify", marginTop : "30px"}}
+        style={{fontWeight : "700" , color : "white", display : "flex", justifyContent : "justify", marginTop : "30px", color : "cadetblue", fontSize : "1.3rem"}}
       >
         Track your income & expenses smartly. Stay financially aware!
       </motion.p>

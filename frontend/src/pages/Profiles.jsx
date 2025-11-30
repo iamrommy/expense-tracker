@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../services/operations/authAPI';
-import { useNavigate } from 'react-router-dom';
-import { SetMonthlyGoal } from '../services/operations/userAPI';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../services/operations/authAPI";
+import { useNavigate } from "react-router-dom";
+import { SetMonthlyGoal } from "../services/operations/userAPI";
 
 const Profiles = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { transactions } = useSelector((state) => state.transactions);
   const { user, token } = useSelector((state) => state.user);
 
   const [isDisabled, setIsDisabled] = useState(false);
@@ -46,6 +47,7 @@ const Profiles = () => {
     border: `2px solid ${cadetBlue}`,
     margin: "12px auto",
     boxShadow: `0 0 18px ${cadetBlue}88`,
+    display: "block",
   };
 
   const nameStyle = {
@@ -159,15 +161,28 @@ const Profiles = () => {
   const [hover, setHover] = useState(false);
 
   const handleSubmit = () => {
+    if (!monthlyGoal) return;
     setIsDisabled(true);
     dispatch(SetMonthlyGoal(token, monthlyGoal, () => setIsDisabled(false)));
     setMonthlyGoal("");
   };
 
+  // --- Finance Calculations ---
+  const totalIncome =
+    transactions
+      ?.filter((t) => t.type === "income")
+      .reduce((sum, t) => sum + Number(t.amount), 0) || 0;
+
+  const totalExpense =
+    transactions
+      ?.filter((t) => t.type === "expense")
+      .reduce((sum, t) => sum + Number(t.amount), 0) || 0;
+
+  const savings = totalIncome - totalExpense;
+
   return (
     <div style={wrapper}>
       <div style={card}>
-
         {/* Avatar */}
         <img
           style={avatar}
@@ -175,10 +190,10 @@ const Profiles = () => {
           alt="profile avatar"
         />
 
-        {/* Username */}
+        {/* Name */}
         <h2 style={nameStyle}>{(user?.username || "User").toUpperCase()}</h2>
 
-        {/* email */}
+        {/* Email */}
         <p style={emailStyle}>{user?.email || "Email unavailable"}</p>
 
         <div style={divider}></div>
@@ -186,23 +201,32 @@ const Profiles = () => {
         {/* Stats */}
         <div style={statRow}>
           <div style={statCard}>
-            <div style={statNumber}>₹52K</div>
+            <div style={statNumber}>{totalIncome}</div>
             <div style={statLabel}>Total Income</div>
           </div>
+
           <div style={statCard}>
-            <div style={statNumber}>₹34K</div>
+            <div style={statNumber}>{totalExpense}</div>
             <div style={statLabel}>Total Expense</div>
           </div>
+
           <div style={statCard}>
-            <div style={statNumber}>128</div>
+            <div style={statNumber}>{transactions?.length || 0}</div>
             <div style={statLabel}>Transactions</div>
           </div>
         </div>
 
-        {/* Goal area */}
+        {/* Show savings ONLY when positive */}
+        {savings > 0 && totalExpense > 0 &&(
+          <div style={{ ...statCard, marginTop: "16px" }}>
+            <div style={statNumber}>{savings}</div>
+            <div style={statLabel}>Savings</div>
+          </div>
+        )}
+
+        {/* Goal */}
         <div style={goalSection}>
           <h3 style={goalHeader}>Set Monthly Spending Limit</h3>
-
           <input
             type="number"
             style={goalInput}
@@ -210,12 +234,7 @@ const Profiles = () => {
             value={monthlyGoal}
             onChange={(e) => setMonthlyGoal(e.target.value)}
           />
-
-          <button
-            style={goalBtn}
-            disabled={isDisabled}
-            onClick={handleSubmit}
-          >
+          <button style={goalBtn} disabled={isDisabled} onClick={handleSubmit}>
             Set Goal
           </button>
         </div>

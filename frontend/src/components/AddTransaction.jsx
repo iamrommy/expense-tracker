@@ -4,15 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AddTransactions } from "../services/operations/transactionAPI";
 
-const getTodayDate = () => {
-  const today = new Date();
-  return today.toISOString().split("T")[0];
-};
-
-const formatDate = (isoDate) => {
-  const [yyyy, mm, dd] = isoDate.split("-");
-  return `${dd}/${mm}/${yyyy}`;
-};
+const getTodayDate = () => new Date().toISOString().split("T")[0];
 
 export const AddTransaction = () => {
   const navigate = useNavigate();
@@ -32,12 +24,17 @@ export const AddTransaction = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!amount || Number(amount) <= 0) {
+      alert("Amount must be greater than 0");
+      return;
+    }
+
     const transactionData = {
       type,
       amount: Number(amount),
       category,
-      date: formatDate(date),
-      description,
+      date,
+      description: description.trim(),
       paymentMethod,
       currency,
     };
@@ -51,6 +48,9 @@ export const AddTransaction = () => {
       })
     );
   };
+
+  const expenseCategories = ["Food", "Transport", "Shopping", "Entertainment", "Other"];
+  const incomeCategories = ["Salary", "Bonus", "Investment", "Other"];
 
   return (
     <motion.div
@@ -70,12 +70,12 @@ export const AddTransaction = () => {
         style={{
           width: "450px",
           padding: "25px",
-          height : "fit-content",
-          background: "rgba(255,255,255,0.04)",
+          background: "rgba(255,255,255,0.06)",
           border: "1px solid rgba(255,255,255,0.1)",
-          borderRadius: "12px",
-          backdropFilter: "blur(6px)",
-          boxShadow: "0 0 20px rgba(0,0,0,0.4)"
+          borderRadius: "14px",
+          backdropFilter: "blur(10px)",
+          boxShadow: "0 0 30px rgba(0,0,0,0.4)",
+          height : "min-content"
         }}
       >
         <h2
@@ -89,16 +89,18 @@ export const AddTransaction = () => {
           Add Transaction
         </h2>
 
-        <form style={{ display: "flex", flexDirection: "column", gap: "12px" }} onSubmit={handleSubmit}>
-          
+        <form
+          style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+          onSubmit={handleSubmit}
+        >
           {/* TYPE */}
           <select
             style={selectStyle}
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
+            <option value="income" style={{ color: "black" }}>Income</option>
+            <option value="expense" style={{ color: "black" }}>Expense</option>
           </select>
 
           {/* AMOUNT */}
@@ -117,10 +119,10 @@ export const AddTransaction = () => {
             value={currency}
             onChange={(e) => setCurrency(e.target.value)}
           >
-            <option value="INR">INR</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
+            <option value="INR" style={{ color: "black" }}>INR</option>
+            <option value="USD" style={{ color: "black" }}>USD</option>
+            <option value="EUR" style={{ color: "black" }}>EUR</option>
+            <option value="GBP" style={{ color: "black" }}>GBP</option>
           </select>
 
           {/* CATEGORY */}
@@ -129,12 +131,11 @@ export const AddTransaction = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option>Food</option>
-            <option>Transport</option>
-            <option>Shopping</option>
-            <option>Salary</option>
-            <option>Entertainment</option>
-            <option>Other</option>
+            {(type === "expense" ? expenseCategories : incomeCategories).map((c) => (
+              <option key={c} value={c} style={{ color: "black" }}>
+                {c}
+              </option>
+            ))}
           </select>
 
           {/* DATE */}
@@ -152,19 +153,20 @@ export const AddTransaction = () => {
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
-            <option value="cash">Cash</option>
-            <option value="upi">UPI</option>
+            <option value="cash" style={{ color: "black" }}>Cash</option>
+            <option value="upi" style={{ color: "black" }}>UPI</option>
+            <option value="card" style={{ color: "black" }}>Card</option>
           </select>
 
           {/* DESCRIPTION */}
           <textarea
-            style={{ ...inputStyle, height: "80px", resize: "none" }}
+            style={{ ...inputStyle, height: "90px", resize: "none" }}
             placeholder="Description (optional)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          {/* BUTTON */}
+          {/* SUBMIT */}
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -192,7 +194,7 @@ const inputStyle = {
   padding: "12px",
   borderRadius: "8px",
   border: "1px solid rgba(255,255,255,0.25)",
-  background: "rgba(255,255,255,0.09)",
+  background: "rgba(255,255,255,0.1)",
   color: "white",
   outline: "none",
 };

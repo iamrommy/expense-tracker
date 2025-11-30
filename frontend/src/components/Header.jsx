@@ -12,9 +12,13 @@ const Header = () => {
     navigate("/");
   };
 
+  const handleClick =  () =>{
+    navigate("/");
+  }
+
   return (
     <div className="navbar">
-      <h2 className="logo">Expensify</h2>
+      <h2 onClick = {handleClick} className="logo">Expensify</h2>
 
       <ul className="nav-links">
         {user ? (

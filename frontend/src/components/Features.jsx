@@ -3,7 +3,7 @@ import React from "react";
 import { FaChartPie, FaWallet, FaHistory, FaUserShield, FaListAlt, FaFolderPlus } from "react-icons/fa";
 
 const cardStyle = {
-  background : "white",
+  background : "#e5e5e5",
   padding: "20px",
   borderRadius: "12px",
   boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
@@ -92,7 +92,7 @@ const Features = () => {
 
   return (
     <section style={containerStyle}>
-      <h2 style={titleStyle}>App Features</h2>
+      <h2 style={titleStyle}>Key Features</h2>
 
       <div style={gridStyle}>
         {features.map((item, index) => (
