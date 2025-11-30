@@ -20,7 +20,6 @@ const Header = () => {
         {user ? (
           <>
             <li><NavLink to="/" className="nav-item">Home</NavLink></li>
-            <li><NavLink to="/dashboard" className="nav-item">Dashboard</NavLink></li>
             <li><NavLink to="/add-transaction" className="nav-item">Add</NavLink></li>
             <li><NavLink to="/transactions" className="nav-item">History</NavLink></li>
             <li><NavLink to="/reports" className="nav-item">Reports</NavLink></li>
@@ -31,7 +30,7 @@ const Header = () => {
 
         <li>
           {user ? (
-            <NavLink to="/profile" className= "nav-item">Profile</NavLink>
+            <NavLink to="/profile" className= "nav-item">Dashboard</NavLink>
           ) : (
             <></>
           )}

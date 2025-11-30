@@ -1,18 +1,16 @@
-import React from 'react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../services/operations/authAPI';
 import { useNavigate } from 'react-router-dom';
 import { SetMonthlyGoal } from '../services/operations/userAPI';
 
-const Profile = () => {
+const Profiles = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user, token } = useSelector((state) => state.user);
 
   const [isDisabled, setIsDisabled] = useState(false);
-
   const [monthlyGoal, setMonthlyGoal] = useState("");
 
   const handleLogout = () => {
@@ -23,8 +21,6 @@ const Profile = () => {
 
   const wrapper = {
     minHeight: "100vh",
-    padding: "0",
-    margin: "0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -34,60 +30,59 @@ const Profile = () => {
   };
 
   const card = {
-    width: "460px",
-    background: "linear-gradient(145deg, rgba(25,25,25,1), rgba(10,10,10,1))",
-    borderRadius: "18px",
-    padding: "30px",
+    width: "480px",
+    padding: "35px 30px",
+    background: "linear-gradient(160deg, #0e0e0e, #050505)",
+    borderRadius: "20px",
+    boxShadow: `0 0 28px ${cadetBlue}55`,
     textAlign: "center",
-    boxShadow: `0 0 30px ${cadetBlue}55`,
     backdropFilter: "blur(5px)",
-    transition: "0.3s",
   };
 
   const avatar = {
-    width: "100px",
-    height: "100px",
+    width: "110px",
+    height: "110px",
     borderRadius: "50%",
-    margin: "0 auto",
-    border: `3px solid ${cadetBlue}`,
-    boxShadow: `0 0 20px ${cadetBlue}66`,
+    border: `2px solid ${cadetBlue}`,
+    margin: "12px auto",
+    boxShadow: `0 0 18px ${cadetBlue}88`,
   };
 
   const nameStyle = {
-    fontSize: "24px",
-    fontWeight: "700",
-    marginTop: "18px",
-    color: "#FFFFFF",
-    textShadow: `0 0 8px ${cadetBlue}55`,
+    fontSize: "30px",
+    fontWeight: "800",
+    color: cadetBlue,
+    marginTop: "14px",
+    textShadow: `0 0 10px ${cadetBlue}55`,
   };
 
   const emailStyle = {
     fontSize: "13px",
-    color: "#c9c9c9",
-    marginTop: "4px",
+    color: "#dcdcdc",
+    marginTop: "10px",
   };
 
   const divider = {
-    width: "70%",
-    margin: "20px auto",
     height: "1px",
+    width: "70%",
+    margin: "22px auto",
     background: `linear-gradient(90deg, transparent, ${cadetBlue}, transparent)`,
   };
 
   const statRow = {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: "25px",
+    marginTop: "22px",
+    gap: "8px",
   };
 
   const statCard = {
     flex: 1,
-    margin: "0 6px",
-    padding: "12px 10px",
+    padding: "14px 10px",
     borderRadius: "10px",
-    background: "#111",
-    border: `1px solid ${cadetBlue}80`,
-    boxShadow: `0 0 10px ${cadetBlue}33`,
+    background: "#121212",
+    border: `1px solid ${cadetBlue}60`,
+    boxShadow: `0 0 12px ${cadetBlue}33`,
   };
 
   const statNumber = {
@@ -103,52 +98,99 @@ const Profile = () => {
     marginTop: "2px",
   };
 
+  const goalSection = {
+    marginTop: "28px",
+    padding: "16px",
+    background: "#0f0f0f",
+    borderRadius: "12px",
+    boxShadow: `0 0 12px ${cadetBlue}22`,
+  };
+
+  const goalHeader = {
+    fontSize: "17px",
+    marginBottom: "12px",
+    color: cadetBlue,
+    fontWeight: "600",
+  };
+
+  const goalInput = {
+    width: "80%",
+    padding: "10px",
+    borderRadius: "8px",
+    border: `1px solid ${cadetBlue}`,
+    background: "#111",
+    color: "#fff",
+    textAlign: "center",
+    outline: "none",
+    marginBottom: "12px",
+  };
+
+  const goalBtn = {
+    padding: "8px 18px",
+    borderRadius: "8px",
+    border: "none",
+    background: cadetBlue,
+    color: "#000",
+    cursor: "pointer",
+    fontWeight: "600",
+    boxShadow: `0 0 12px ${cadetBlue}55`,
+  };
+
   const logoutBtn = {
     marginTop: "28px",
-    padding: "12px 28px",
+    padding: "12px 32px",
     fontSize: "14px",
     fontWeight: "600",
-    borderRadius: "10px",
+    letterSpacing: "0.3px",
+    borderRadius: "12px",
     background: `linear-gradient(90deg, ${cadetBlue}, #6fb4b6)`,
     border: "none",
-    cursor: "pointer",
-    boxShadow: `0 0 15px ${cadetBlue}66`,
-    transition: "0.3s",
     color: "#000",
+    cursor: "pointer",
+    boxShadow: `0 0 18px ${cadetBlue}88`,
+    transition: "0.22s",
   };
 
   const logoutHover = {
-    transform: "scale(1.08)",
-    boxShadow: `0 0 25px ${cadetBlue}99`,
+    transform: "scale(1.07)",
+    boxShadow: `0 0 28px ${cadetBlue}dd`,
   };
 
-  const [hover, setHover] = React.useState(false);
+  const [hover, setHover] = useState(false);
+
+  const handleSubmit = () => {
+    setIsDisabled(true);
+    dispatch(SetMonthlyGoal(token, monthlyGoal, () => setIsDisabled(false)));
+    setMonthlyGoal("");
+  };
 
   return (
     <div style={wrapper}>
       <div style={card}>
-        {/* avatar */}
+
+        {/* Avatar */}
         <img
           style={avatar}
           src={`https://ui-avatars.com/api/?name=${user?.username}&background=111111&color=5F9EA0`}
           alt="profile avatar"
         />
 
-        <h2 style={nameStyle}>
-          {user?.username || "User"}
-        </h2>
+        {/* Username */}
+        <h2 style={nameStyle}>{(user?.username || "User").toUpperCase()}</h2>
 
+        {/* email */}
         <p style={emailStyle}>{user?.email || "Email unavailable"}</p>
 
         <div style={divider}></div>
 
+        {/* Stats */}
         <div style={statRow}>
           <div style={statCard}>
-            <div style={statNumber}>52K</div>
+            <div style={statNumber}>₹52K</div>
             <div style={statLabel}>Total Income</div>
           </div>
           <div style={statCard}>
-            <div style={statNumber}>34K</div>
+            <div style={statNumber}>₹34K</div>
             <div style={statLabel}>Total Expense</div>
           </div>
           <div style={statCard}>
@@ -157,6 +199,28 @@ const Profile = () => {
           </div>
         </div>
 
+        {/* Goal area */}
+        <div style={goalSection}>
+          <h3 style={goalHeader}>Set Monthly Spending Limit</h3>
+
+          <input
+            type="number"
+            style={goalInput}
+            placeholder="Enter amount"
+            value={monthlyGoal}
+            onChange={(e) => setMonthlyGoal(e.target.value)}
+          />
+
+          <button
+            style={goalBtn}
+            disabled={isDisabled}
+            onClick={handleSubmit}
+          >
+            Set Goal
+          </button>
+        </div>
+
+        {/* Logout */}
         <button
           style={hover ? { ...logoutBtn, ...logoutHover } : logoutBtn}
           onMouseEnter={() => setHover(true)}
@@ -170,41 +234,4 @@ const Profile = () => {
   );
 };
 
-  const handleSubmit = () => {
-    setIsDisabled(true);
-    // console.log("Current Monthly Goal:", monthlyGoal);
-
-    dispatch(
-      SetMonthlyGoal(
-        token, monthlyGoal, ()=> setIsDisabled(false)
-      )
-    )
-
-    setMonthlyGoal("");
-  };
-
-  return (
-    <div className="profile-wrapper">
-      <h2>Welcome {user?.username}</h2>
-
-      <button onClick={handleLogout}>Logout</button>
-
-      <div className="goal-section">
-        <h3>Set Monthly Limit</h3>
-
-        <input
-          type="number"
-          className="goal-input"
-          placeholder="Enter amount"
-          value={monthlyGoal}
-          onChange={(e) => setMonthlyGoal(e.target.value)}
-        />
-
-        <button onClick={handleSubmit} disabled={isDisabled}>
-          Set
-        </button>
-      </div>
-    </div>
-  );
-
-export default Profile;
+export default Profiles;

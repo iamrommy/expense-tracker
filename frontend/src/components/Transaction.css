@@ -1,110 +1,255 @@
+/* ===== Global container ===== */
 .history-wrapper {
+  background: #000000;
   min-height: 100vh;
-  background: linear-gradient(135deg, red, #f81c53, #dc52ff);
-  
   padding: 40px;
+  color: cadetblue;
   font-family: "Poppins", sans-serif;
-  color: #fff;
+}
+
+/* ===== Title ===== */
+.history-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+  color: cadetblue;
+  text-shadow: 0px 0px 15px rgba(95, 158, 160, 0.6);
+}
+
+/* ===== Table container ===== */
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== Table UI ===== */
+.history-table {
+  width: 85%;
+  border-collapse: collapse;
+  background: rgba(25, 25, 25, 0.85);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 25px rgba(95, 158, 160, 0.25);
+}
+
+/* ===== Header Row ===== */
+.history-table thead {
+  background: rgba(95, 158, 160, 0.25);
+}
+
+.history-table th {
+  padding: 15px 18px;
+  font-size: 15px;
+  color: cadetblue;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(95, 158, 160, 0.35);
+}
+
+/* ===== Data Rows ===== */
+.history-table td {
+  padding: 14px 18px;
+  font-size: 15px;
+  color: #e0e0e0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   text-align: center;
 }
 
-/* Page Title */
-.history-title {
-  font-size: 2.3rem;
+/* Zebra effect */
+.history-table tbody tr:nth-child(odd) {
+  background: rgba(255,255,255,0.04);
+}
+.history-table tbody tr:hover {
+  background: rgba(95, 158, 160, 0.12);
+  transition: 0.25s ease-in-out;
+}
+
+/* ===== Income / Expense accent classes ===== */
+.income {
+  color: #00ffae;
   font-weight: 700;
-  margin-bottom: 30px;
-  text-shadow: 0px 3px 10px rgba(0,0,0,0.4);
+}
+.expense {
+  color: #ff4f4f;
+  font-weight: 700;
+}
+
+/* ===== Buttons ===== */
+.edit-btn,
+.delete-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: 0.25s;
+  border: none;
+  font-weight: 600;
+}
+
+/* Cadetblue edit button */
+.edit-btn {
+  background: cadetblue;
+  color: #000;
+}
+.edit-btn:hover {
+  background: rgba(95, 158, 160, 0.75);
+}
+
+/* Red danger button */
+.delete-btn {
+  background: #e63946;
+  color: #fff;
+}
+.delete-btn:hover:not(:disabled) {
+  background: #c21f2c;
+}
+
+/* Disabled state */
+.delete-btn:disabled {
+  background: #444;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Page Container */
+.history-wrapper {
+  background: #000;
+  min-height: 100vh;
+  padding: 40px 20px;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Title */
+.history-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: cadetblue;
+  text-shadow: 0px 0px 10px rgba(95,158,160,0.5);
 }
 
 /* Table Container */
 .table-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  overflow-x: auto;
+  width: 95%;
+  margin: auto;
 }
 
+/* Table */
 .history-table {
   width: 100%;
-  max-width: 900px;
   border-collapse: collapse;
-  border-radius: 12px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.35);
-}
-
-/* Table Head */
-.history-table th {
-  background: rgba(255,255,255,0.25);
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 14px 12px;
   color: #fff;
+  background: rgba(20,20,20,0.9);
+  border-radius: 10px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(95,158,160,0.25);
 }
 
-/* Table Cells */
+/* Header */
+.history-table thead tr {
+  background: cadetblue;
+  color: #000;
+  font-size: 16px;
+}
+
+/* Cells */
+.history-table th,
 .history-table td {
-  padding: 12px 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  text-shadow: 0px 1px 3px rgba(0,0,0,0.4);
-  border-bottom: 1px solid rgba(255,255,255,0.25);
+  padding: 14px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(95,158,160,0.18);
 }
 
-/* Income & Expense Colors */
+/* Row Hover */
+.history-table tbody tr:hover {
+  background: rgba(95,158,160,0.1);
+}
+
+/* Type coloring */
 .income {
-  color: #00ff85;
-  font-weight: 700;
+  color: rgb(30, 255, 100);
+  font-weight: 600;
 }
 
 .expense {
-  color: #ffc340;;
-  font-weight: 700;
+  color: rgb(255, 85, 85);
+  font-weight: 600;
 }
 
 /* Buttons */
 .edit-btn,
 .delete-btn {
   padding: 6px 12px;
-  margin: 3px;
-  font-size: .85rem;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  border-radius: 8px;
-  transition: 0.3s;
+  font-weight: 600;
 }
 
-/* Edit Button */
 .edit-btn {
-  background: rgba(0, 217, 255, 0.9);
+  background: cadetblue;
   color: #000;
+  margin-right: 10px;
 }
 
 .edit-btn:hover {
-  background: #61eaff;
-  transform: scale(1.05);
+  background: rgba(95,158,160,0.8);
 }
 
-/* Delete Button */
 .delete-btn {
-  background:  #ffc340;;
+  background: rgb(255, 75, 75);
+  color: #000;
 }
 
 .delete-btn:hover {
-  background: #ff6363;
-  transform: scale(1.05);
+  background: rgba(255, 75, 75, 0.8);
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .history-title {
-    font-size: 2rem;
-  }
+/* Empty State */
+.empty-state {
+  width: 85%;
+  margin: 50px auto;
+  padding: 40px;
+  text-align: center;
+  color: cadetblue;
+  background: rgba(25,25,25,0.85);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 25px rgba(95,158,160,0.25);
+}
 
-  .history-table th, .history-table td {
-    font-size: 0.9rem;
-    padding: 10px 6px;
-  }
+.empty-state h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0px 0px 12px rgba(95,158,160,0.6);
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #dcdcdc;
+  margin-bottom: 25px;
+}
+
+/* CTA Button */
+.add-first-btn {
+  padding: 10px 18px;
+  font-size: 15px;
+  background: cadetblue;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.add-first-btn:hover {
+  background: rgba(95,158,160,0.75);
 }
