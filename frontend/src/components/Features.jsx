@@ -1,8 +1,9 @@
+import { color } from "framer-motion";
 import React from "react";
 import { FaChartPie, FaWallet, FaHistory, FaUserShield, FaListAlt, FaFolderPlus } from "react-icons/fa";
 
 const cardStyle = {
-  background : "black",
+  background : "white",
   padding: "20px",
   borderRadius: "12px",
   boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
@@ -21,7 +22,7 @@ const iconContainer = {
   margin: "0 auto",
   borderRadius: "50%",
   background: "#EEF2FF",
-  color: "#4F46E5",
+  color: "cadetblue",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -30,7 +31,7 @@ const iconContainer = {
 
 const containerStyle = {
   padding: "40px",
-  background: "#f6f7fa",
+  background: "black",
 };
 
 const gridStyle = {
@@ -44,12 +45,13 @@ const titleStyle = {
   fontWeight: "700",
   textAlign: "center",
   marginBottom: "25px",
-  color: "#333",
+  color: "white",
 };
 
 const descStyle = {
-  color: "white",
   marginTop: "6px",
+  fontSize : "18px",
+  color: "#6e7191"
 };
 
 const Features = () => {
@@ -97,11 +99,11 @@ const Features = () => {
           <div
             key={index}
             style={hoverIndex === index ? { ...cardStyle, ...cardHover } : cardStyle}
-            onMouseEnter={() => setHoverIndex(index)}
-            onMouseLeave={() => setHoverIndex(null)}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
             <div style={iconContainer}>{item.icon}</div>
-            <h3 style={{ fontSize: "18px", fontWeight: "600", color: "white" }}>
+            <h3 style={{ fontSize: "1.5rem", fontWeight: "800" }}>
               {item.title}
             </h3>
             <p style={descStyle}>{item.desc}</p>

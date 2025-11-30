@@ -36,7 +36,7 @@
 
 .nav-item:hover,
 .nav-item.active {
-  background: #00f7ff;
+  background: cadetblue;
   color: #000;
 }
 
