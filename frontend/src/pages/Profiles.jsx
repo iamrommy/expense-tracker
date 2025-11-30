@@ -1,4 +1,3 @@
-import React from 'react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../services/operations/authAPI';
@@ -19,6 +18,19 @@ const Profile = () => {
     dispatch(logout(navigate));
   };
 
+ const handleSubmit = () => {
+    setIsDisabled(true);
+    // console.log("Current Monthly Goal:", monthlyGoal);
+
+    dispatch(
+      SetMonthlyGoal(
+        token, monthlyGoal, ()=> setIsDisabled(false)
+      )
+    )
+
+    setMonthlyGoal("");
+  };
+  
   const cadetBlue = "#5F9EA0";
 
   const wrapper = {
@@ -157,38 +169,6 @@ const Profile = () => {
           </div>
         </div>
 
-        <button
-          style={hover ? { ...logoutBtn, ...logoutHover } : logoutBtn}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
-      </div>
-    </div>
-  );
-};
-
-  const handleSubmit = () => {
-    setIsDisabled(true);
-    // console.log("Current Monthly Goal:", monthlyGoal);
-
-    dispatch(
-      SetMonthlyGoal(
-        token, monthlyGoal, ()=> setIsDisabled(false)
-      )
-    )
-
-    setMonthlyGoal("");
-  };
-
-  return (
-    <div className="profile-wrapper">
-      <h2>Welcome {user?.username}</h2>
-
-      <button onClick={handleLogout}>Logout</button>
-
       <div className="goal-section">
         <h3>Set Monthly Limit</h3>
 
@@ -203,8 +183,19 @@ const Profile = () => {
         <button onClick={handleSubmit} disabled={isDisabled}>
           Set
         </button>
+      </div>       
+        
+        <button
+          style={hover ? { ...logoutBtn, ...logoutHover } : logoutBtn}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </div>
-  );
+
+};
 
 export default Profile;
