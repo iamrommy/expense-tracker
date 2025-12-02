@@ -16,12 +16,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 @Configuration
 public class SecurityConfig {
 
-    // ⭐ READ frontend URL from YAML
-    @Value("${frontend.url}")
-    private String frontendUrl;
+    private static final Dotenv dotenv = Dotenv.configure().load();
+
+    private String frontendUrl = dotenv.get("FRONTEND_URL");
 
     private final JwtFilter jwtFilter;
 
@@ -32,25 +34,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        AuthenticationEntryPoint entryPoint =
-                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
+        AuthenticationEntryPoint entryPoint = new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
 
         http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .exceptionHandling(e -> e.authenticationEntryPoint(entryPoint))
-            .sessionManagement(s -> s.sessionCreationPolicy(
-                    org.springframework.security.config.http.SessionCreationPolicy.STATELESS
-            ))
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .exceptionHandling(e -> e.authenticationEntryPoint(entryPoint))
+                .sessionManagement(s -> s.sessionCreationPolicy(
+                        org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
 
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()   // ⭐ important for CORS
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/", "/favicon.ico", "/index.html", "/public-test").permitAll()
-                .anyRequest().authenticated()
-            )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ⭐ important for CORS
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/", "/favicon.ico", "/index.html", "/public-test").permitAll()
+                        .anyRequest().authenticated())
 
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -65,15 +64,13 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(frontendUrl));
 
         config.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
-        ));
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**", config);
 
